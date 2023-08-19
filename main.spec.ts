@@ -21,6 +21,6 @@ Deno.test("loadGitConfigFile is success", () => {
   assertEquals(result, expectFileContent);
 });
 
-Deno.test("fail load file", () => {
+Deno.test("fail load file about loadGitConfigFile", () => {
   assertEquals(loadGitConfigFile('./fixtures/config.txt'), undefined);
 });
