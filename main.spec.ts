@@ -1,4 +1,4 @@
-import {loadGitConfigFile} from "./main.ts";
+import {loadGitConfigFile, matchGitConfigText} from "./main.ts";
 import { assertEquals } from "https://deno.land/std@0.198.0/assert/mod.ts";
 
 Deno.test("loadGitConfigFile is success", () => {
@@ -23,4 +23,14 @@ Deno.test("loadGitConfigFile is success", () => {
 
 Deno.test("fail load file about loadGitConfigFile", () => {
   assertEquals(loadGitConfigFile('./fixtures/config.txt'), undefined);
+});
+
+
+Deno.test("matchGitConfigText is success", () => {
+  assertEquals(matchGitConfigText('git@github.com:git_owner/git_repogitory.git'), ['git_owner', 'git_repogitory'])
+  assertEquals(matchGitConfigText('https://github.com/git_owner/git_repogitory.git'), ['git_owner', 'git_repogitory'])
+});
+
+Deno.test("matchGitConfigText is failed", () => {
+  assertEquals(matchGitConfigText('hoge@hoge.com:git_owner/git_repository'), 'could not git information')
 });
