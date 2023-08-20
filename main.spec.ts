@@ -31,6 +31,15 @@ Deno.test("matchGitConfigText is success", () => {
   assertEquals(matchGitConfigText('https://github.com/git_owner/git_repogitory.git'), ['git_owner', 'git_repogitory'])
 });
 
-Deno.test("matchGitConfigText is failed", () => {
-  assertEquals(matchGitConfigText('hoge@hoge.com:git_owner/git_repository'), 'could not git information')
+// TODO: execをモック化する
+Deno.test("fetchGitHubPullRequest is success", () => {
+  assertEquals(matchGitConfigText('hoge@hoge.com:git_owner/git_repository'),
+    `[
+      {
+        "title": "fix test case message about loadGitConfigFile method",
+        "url": "https://github.com/sontixyou/prist/pull/3"
+      }
+    ]
+    `
+  )
 });
