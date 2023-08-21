@@ -7,7 +7,7 @@ function loadGitConfigFile(filePath : string) : string {
   }
 }
 
-function matchGitConfigText(gitConfigText: string) : RegExpMatchArray | string |null {
+function matchGitConfigText(gitConfigText: string) : any {
   const regex = /https:\/\/github\.com\/(.+)\/(.+)\.git|git@github\.com\:(.+)\/(.+)\.git/;
 
   const gitInformation = gitConfigText.match(regex)
@@ -20,9 +20,27 @@ function matchGitConfigText(gitConfigText: string) : RegExpMatchArray | string |
 
 import { exec } from 'https://deno.land/x/execute@v1.1.0/mod.ts'
 
-function fetchGitHubPullRequest(owner: string, repository: string) : string {
+async function fetchGitHubPullRequest(owner: string, repository: string) : Promise<string[]> {
   const result :string = await exec(`gh search prs --repo ${owner}/${repository} --created 2023-08-19 --author sontixyou --json title,url `)
-  return result
+  return JSON.parse(result)
 }
 
-export { loadGitConfigFile, matchGitConfigText, fetchGitHubPullRequest };
+async function generateGithubPullRequestReport(githubPullRequestJsonArray: Promise<string[]>): Promise<string> {
+  const pullRequestArray = await githubPullRequestJsonArray;
+  const report = pullRequestArray.map(pullRequest => `- [${pullRequest.title}](${pullRequest.url})\n`).join('');
+  return report;
+}
+
+
+export { loadGitConfigFile, matchGitConfigText, fetchGitHubPullRequest, generateGithubPullRequestReport };
+async function main() {
+  const gitConfigText = loadGitConfigFile('./.git/config');
+  const gitInfo = matchGitConfigText(gitConfigText);
+  const githubPullRequestJsonArray : Array<string> = fetchGitHubPullRequest(gitInfo[0], gitInfo[1]);
+
+  const report : string = await generateGithubPullRequestReport(githubPullRequestJsonArray);
+
+  console.log(report);
+}
+
+main();
