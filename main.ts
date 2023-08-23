@@ -20,7 +20,8 @@ function matchGitConfigText(gitConfigText: string) : any {
 import { exec } from 'https://deno.land/x/execute@v1.1.0/mod.ts'
 
 async function fetchGitHubPullRequest(owner: string, repository: string) : Promise<string[]> {
-  const result :string = await exec(`gh search prs --repo ${owner}/${repository} --created 2023-08-19 --author sontixyou --json title,url `)
+  const today : string = new Date().toISOString().split('T')[0];
+  const result :string = await exec(`gh search prs --repo ${owner}/${repository} --created ${today} --author sontixyou --json title,url `)
   return JSON.parse(result)
 }
 
