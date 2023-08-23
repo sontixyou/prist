@@ -1,6 +1,5 @@
 function loadGitConfigFile(filePath : string) : string {
   try {
-    // 何かしらの処理
     return Deno.readTextFileSync(filePath);
   } catch (e) {
     console.error('Could not find file.');
@@ -31,8 +30,8 @@ async function generateGithubPullRequestReport(githubPullRequestJsonArray: Promi
   return report;
 }
 
-
 export { loadGitConfigFile, matchGitConfigText, fetchGitHubPullRequest, generateGithubPullRequestReport };
+
 async function main() {
   const gitConfigText = loadGitConfigFile('./.git/config');
   const gitInfo = matchGitConfigText(gitConfigText);
