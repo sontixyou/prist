@@ -5,7 +5,7 @@ export default class World extends Command {
 
   static examples = [
     `<%= config.bin %> <%= command.id %>
-hello world! (./src/commands/hello/world.ts)
+hello world! (./src/commands/prist/world.ts)
 `,
   ]
 
