@@ -5,7 +5,7 @@ export default class Hello extends Command {
 
   static examples = [
     `$ oex hello friend --from oclif
-hello friend from oclif! (./src/commands/hello/index.ts)
+hello friend from oclif! (./src/commands/prist/index.ts)
 `,
   ]
 
